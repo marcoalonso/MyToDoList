@@ -18,6 +18,8 @@
 		6053B9FC2899740D003090A2 /* Extension in Resources */ = {isa = PBXBuildFile; fileRef = 6053B9F92899740D003090A2 /* Extension */; };
 		6053B9FD2899740D003090A2 /* Style in Resources */ = {isa = PBXBuildFile; fileRef = 6053B9FA2899740D003090A2 /* Style */; };
 		60B13EF928A20305001C6B19 /* BackgroundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B13EF828A20305001C6B19 /* BackgroundImageView.swift */; };
+		60B13EFB28A204BF001C6B19 /* NewTaskITemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B13EFA28A204BF001C6B19 /* NewTaskITemView.swift */; };
+		60B13EFD28A2094A001C6B19 /* BlankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B13EFC28A2094A001C6B19 /* BlankView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		6053B9FA2899740D003090A2 /* Style */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Style; sourceTree = "<group>"; };
 		6053BA0028997590003090A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		60B13EF828A20305001C6B19 /* BackgroundImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundImageView.swift; sourceTree = "<group>"; };
+		60B13EFA28A204BF001C6B19 /* NewTaskITemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTaskITemView.swift; sourceTree = "<group>"; };
+		60B13EFC28A2094A001C6B19 /* BlankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +97,8 @@
 			children = (
 				6053B9E5289973E8003090A2 /* ContentView.swift */,
 				60B13EF828A20305001C6B19 /* BackgroundImageView.swift */,
+				60B13EFA28A204BF001C6B19 /* NewTaskITemView.swift */,
+				60B13EFC28A2094A001C6B19 /* BlankView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -183,8 +189,10 @@
 				60B13EF928A20305001C6B19 /* BackgroundImageView.swift in Sources */,
 				6053B9ED289973EA003090A2 /* Persistence.swift in Sources */,
 				6053B9E6289973E8003090A2 /* ContentView.swift in Sources */,
+				60B13EFB28A204BF001C6B19 /* NewTaskITemView.swift in Sources */,
 				6053B9E4289973E8003090A2 /* MyToDoListApp.swift in Sources */,
 				6053B9F0289973EA003090A2 /* MyToDoList.xcdatamodeld in Sources */,
+				60B13EFD28A2094A001C6B19 /* BlankView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

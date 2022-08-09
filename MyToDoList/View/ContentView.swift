@@ -12,15 +12,9 @@ import UIKit
 struct ContentView: View {
     // MARK: - Property
     @State  var task: String = ""
+    @State private var showNewTaskITem: Bool = false
     
-    
-    
-    //computed property
-    //sera false si el textfield esta vacio
-    private var isButtonDisabled: Bool {
-        task.isEmpty
-    }
-    
+        
     // MARK: - Fetching data
     @Environment(\.managedObjectContext) private var viewContext
 
@@ -28,97 +22,7 @@ struct ContentView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
         animation: .default)
     private var items: FetchedResults<Item>
-
-    var body: some View {
-        NavigationView {
-            ZStack {
-                VStack {
-                    VStack (alignment: .center, spacing: 16) {
-                    
-                        TextField("Nueva Tarea", text: $task)
-                            .padding()
-                            .background(Color(UIColor.systemGray6))
-                            .cornerRadius(12)
-                        
-                        Button {
-                            addItem()
-                            
-                        } label: {
-                            Spacer()
-                            Text("GUARDAR")
-                            Spacer()
-                        }
-                        .disabled(isButtonDisabled)
-                        .padding()
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .background(isButtonDisabled ? Color.gray : Color.blue)
-                        .cornerRadius(12)
-
-                    }//Vstack
-                    .padding()
-                    
-                    List {
-                        ForEach(items) { item in
-                            
-                            VStack (alignment: .leading) {
-                                Text(item.task ?? "")
-                                    .font(.headline)
-                                    .fontWeight(.semibold)
-                                
-                                Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                                    .font(.footnote)
-                                    .foregroundColor(.gray)
-                            }//list item
-                            
-                        }
-                        .onDelete(perform: deleteItems)
-                    }
-                    .listStyle(InsetGroupedListStyle())
-                    .shadow(radius: 15)
-                    .padding(.vertical, 5)
-                    .frame(maxWidth: 640)
-                }//Vstack
-                .navigationBarTitle("Lista de Pendientes", displayMode: .large)
-                
-            }//Zstack
-            .onAppear() {
-                UITableView.appearance().backgroundColor = UIColor.clear
-            }
-            // boton de agregar y editar
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    EditButton()
-                }
-            }//toolbar
-            .background(
-            BackgroundImageView()
-            )
-        }//Navigation
-        
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-            newItem.task = task
-            newItem.completion = false
-            newItem.id = UUID()
-            
-            do {
-                try viewContext.save()
-            } catch {
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-            
-            task = ""
-            //Dismiss Keyboard
-            
-        }
-    }
-
+    
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
             offsets.map { items[$0] }.forEach(viewContext.delete)
@@ -132,6 +36,79 @@ struct ContentView: View {
            
         }
     }
+
+    // MARK: - Body
+    var body: some View {
+        NavigationView {
+            ZStack {
+                VStack {
+                // MARK: - HEader
+                Spacer(minLength: 80)
+                    
+                    Button {
+                        showNewTaskITem = true
+                    } label: {
+                        Image(systemName: "plus.circle")
+                            .font(.system(size: 30, weight: .semibold, design: .rounded))
+                        Text("Nueva Tarea")
+                            .font(.system(size: 25, weight: .semibold, design: .rounded))
+                    }.foregroundColor(.black)
+                        .padding()
+                        .background(
+                            LinearGradient(gradient: Gradient(colors: [Color.white, Color.blue]), startPoint: .trailing, endPoint: .leading)
+                                .clipShape(Capsule())
+                        )
+                        .shadow(color: Color(red: 0, green: 0, blue: 0, opacity: 0.25), radius: 8, x: 0.0, y: 4.0)
+
+                    
+                    List {
+                        ForEach(items) { item in
+                            
+                            VStack (alignment: .leading) {
+                                Text(item.task ?? "")
+                                    .font(.headline)
+                                    .fontWeight(.semibold)
+                                
+                                Text("Creado el \(item.timestamp!, formatter: itemFormatter)")
+                                    .font(.footnote)
+                                    .foregroundColor(.gray)
+                            }//Vstack
+                            
+                        }
+                        .onDelete(perform: deleteItems)
+                    }//List
+                    .listStyle(InsetGroupedListStyle())
+                    .shadow(radius: 15)
+                    .padding(.vertical, 5)
+                    .frame(maxWidth: 640)
+                }//Vstack
+                .navigationBarTitle("Lista de Pendientes", displayMode: .large)
+                
+                if showNewTaskITem {
+                    BlankView()
+                        .onTapGesture {
+                            withAnimation {
+                                showNewTaskITem = false
+                            }
+                        }
+                    NewTaskITemView(isShowing: $showNewTaskITem)
+                }
+                
+            }//Zstack
+            .onAppear() {
+                UITableView.appearance().backgroundColor = UIColor.clear
+            }
+            // boton de agregar y editar
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    EditButton()
+                }
+            }//toolbar
+            .background(
+                BackgroundImageView()
+            )
+        }//Navigation
+    }///Body
 }
 
 private let itemFormatter: DateFormatter = {
